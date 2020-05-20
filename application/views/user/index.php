@@ -46,16 +46,13 @@
 						<td><?php echo $u['telp']; ?></td>
 						<td>
                             <a href="<?php echo site_url('user/detail/'.$u['id_user']); ?>" class="btn btn-primary btn-xs"><span class="fa fa-info"></span> detail</a> 
-                            <a href="<?php echo site_url('user/edit/'.$u['id_user']); ?>" class="btn btn-info btn-xs"><span class="fa fa-pencil"></span> Edit</a> 
+                            <a href="<?php echo site_url('user/aksiEditUser/'.$u['id_user']); ?>" class="btn btn-info btn-xs"><span class="fa fa-pencil"></span> Edit</a> 
                             <a onclick="deleteConfirm('<?php echo site_url('user/aksiHapusUser/'.$u['id_user']); ?>')"
 											 href="#!" class="btn btn-danger btn-xs"><span class="fa fa-trash"></span> Hapus</a>
                         </td>
                     </tr>
                     <?php } ?>
-                </table>
-                <div class="pull-right">
-                    <?php echo $this->pagination->create_links(); ?>                    
-                </div>                
+                </table>              
             </div>
         </div>
     </div>

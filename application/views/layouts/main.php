@@ -111,14 +111,27 @@
                         </li>
 						<li>
                             <a href="#">
+                                <i class="fa fa-envelope"></i> <span>Pemesanan</span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li>
+                                    <a href="<?php echo site_url('pemesanan/index');?>"><i class="fa fa-list-ul"></i> Data Pemesanan</a>
+                                </li>
+								<li class="active">
+                                    <a href="<?php echo site_url('pemesanan/aksiTambahPemesanan');?>"><i class="fa fa-plus"></i> Tambah Pemesanan</a>
+                                </li>
+							</ul>
+                        </li>
+						<li>
+                            <a href="#">
                                 <i class="fa fa-envelope-open"></i> <span>Item Pemesanan</span>
                             </a>
                             <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('item_pemesanan/add');?>"><i class="fa fa-plus"></i> Add</a>
+                                <li>
+                                    <a href="<?php echo site_url('item_pemesanan/index');?>"><i class="fa fa-list-ul"></i> Data Item Pesanan</a>
                                 </li>
-								<li>
-                                    <a href="<?php echo site_url('item_pemesanan/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
+								<li class="active">
+                                    <a href="<?php echo site_url('item_pemesanan/aksiTambahItem');?>"><i class="fa fa-plus"></i> Tambah Item</a>
                                 </li>
 							</ul>
                         </li>
@@ -127,24 +140,11 @@
                                 <i class="fa fa-dollar"></i> <span>Pembayaran</span>
                             </a>
                             <ul class="treeview-menu">
+                                <li>
+                                    <a href="<?php echo site_url('pembayaran/index');?>"><i class="fa fa-list-ul"></i> Data Pembayaran</a>
+                                </li>
 								<li class="active">
-                                    <a href="<?php echo site_url('pembayaran/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
-								<li>
-                                    <a href="<?php echo site_url('pembayaran/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
-                                </li>
-							</ul>
-                        </li>
-						<li>
-                            <a href="#">
-                                <i class="fa fa-envelope"></i> <span>Pemesanan</span>
-                            </a>
-                            <ul class="treeview-menu">
-								<li class="active">
-                                    <a href="<?php echo site_url('pemesanan/add');?>"><i class="fa fa-plus"></i> Add</a>
-                                </li>
-								<li>
-                                    <a href="<?php echo site_url('pemesanan/index');?>"><i class="fa fa-list-ul"></i> Listing</a>
+                                    <a href="<?php echo site_url('pembayaran/aksiTambahPembayaran');?>"><i class="fa fa-plus"></i> Tambah Pembayaran</a>
                                 </li>
 							</ul>
                         </li>

@@ -2,9 +2,9 @@
     <div class="col-md-12">
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title">Item Pemesanans Listing</h3>
+                <h3 class="box-title">Data Item Pesanan</h3>
             	<div class="box-tools">
-                    <a href="<?php echo site_url('item_pemesanan/add'); ?>" class="btn btn-success btn-sm">Add</a> 
+                    <a href="<?php echo site_url('item_pemesanan/aksiTambahItem'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah Item</a> 
                 </div>
             </div>
             <div class="box-body">
@@ -27,8 +27,8 @@
 						<td><?php echo $i['harga']; ?></td>
 						<td><?php echo $i['total_harga']; ?></td>
 						<td>
-                            <a href="<?php echo site_url('item_pemesanan/edit/'.$i['id_item']); ?>" class="btn btn-info btn-xs"><span class="fa fa-pencil"></span> Edit</a> 
-                            <a href="<?php echo site_url('item_pemesanan/remove/'.$i['id_item']); ?>" class="btn btn-danger btn-xs"><span class="fa fa-trash"></span> Delete</a>
+                            <a href="<?php echo site_url('item_pemesanan/aksiEditItem/'.$i['id_item']); ?>" class="btn btn-info btn-xs"><span class="fa fa-pencil"></span> Edit</a> 
+                            <a href="<?php echo site_url('item_pemesanan/aksiHapusItem/'.$i['id_pemesanan'].'/'.$i['id_item']); ?>" class="btn btn-danger btn-xs"><span class="fa fa-trash"></span> Delete</a>
                         </td>
                     </tr>
                     <?php } ?>

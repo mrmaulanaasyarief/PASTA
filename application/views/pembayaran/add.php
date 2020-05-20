@@ -1,10 +1,11 @@
 <div class="row">
     <div class="col-md-12">
+		<a href="<?php echo site_url('pembayaran/index'); ?>" class="btn btn-secondary"><i class="fa fa-angle-left"></i> Kembali</a>
       	<div class="box box-info">
             <div class="box-header with-border">
-              	<h3 class="box-title">Pembayaran Add</h3>
+              	<h3 class="box-title">Tambah Pembayaran</h3>
             </div>
-            <?php echo form_open('pembayaran/add'); ?>
+            <?php echo form_open('pembayaran/aksiTambahPembayaran'); ?>
           	<div class="box-body">
           		<div class="row clearfix">
 					<div class="col-md-6">
@@ -36,7 +37,8 @@
 								<?php 
 								$status_pembayaran_values = array(
 									'0'=>'Belum Dibayar',
-									'1'=>'Dibayar',
+									'1'=>'Menunggu Konfirmasi',
+									'2'=>'Sudah Dibayar',
 								);
 
 								foreach($status_pembayaran_values as $value => $display_text)
@@ -68,17 +70,15 @@
 						</div>
 					</div>
 					<div class="col-md-6">
-						<label for="tanggal_pembayaran" class="control-label"><span class="text-danger">*</span>Tanggal Pembayaran</label>
+						<label for="tanggal_pembayaran" class="control-label">Tanggal Pembayaran</label>
 						<div class="form-group">
 							<input type="text" name="tanggal_pembayaran" value="<?php echo $this->input->post('tanggal_pembayaran'); ?>" class="has-datetimepicker form-control" id="tanggal_pembayaran" />
-							<span class="text-danger"><?php echo form_error('tanggal_pembayaran');?></span>
 						</div>
 					</div>
 					<div class="col-md-6">
-						<label for="bukti_pembayaran" class="control-label"><span class="text-danger">*</span>Bukti Pembayaran</label>
+						<label for="bukti_pembayaran" class="control-label">Bukti Pembayaran</label>
 						<div class="form-group">
 							<input type="text" name="bukti_pembayaran" value="<?php echo $this->input->post('bukti_pembayaran'); ?>" class="form-control" id="bukti_pembayaran" />
-							<span class="text-danger"><?php echo form_error('bukti_pembayaran');?></span>
 						</div>
 					</div>
 					<div class="col-md-6">
@@ -91,7 +91,7 @@
 			</div>
           	<div class="box-footer">
             	<button type="submit" class="btn btn-success">
-            		<i class="fa fa-check"></i> Save
+            		<i class="fa fa-check"></i> Simpan
             	</button>
           	</div>
             <?php echo form_close(); ?>

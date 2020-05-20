@@ -1,10 +1,11 @@
 <div class="row">
     <div class="col-md-12">
+		<a href="<?php echo site_url('pemesanan/index'); ?>" class="btn btn-secondary"><i class="fa fa-angle-left"></i> Kembali</a>
       	<div class="box box-info">
             <div class="box-header with-border">
-              	<h3 class="box-title">Pemesanan Add</h3>
+              	<h3 class="box-title">Tambah Pemesanan</h3>
             </div>
-            <?php echo form_open('pemesanan/add'); ?>
+            <?php echo form_open('pemesanan/aksiTambahPemesanan'); ?>
           	<div class="box-body">
           		<div class="row clearfix">
 					<div class="col-md-6">
@@ -37,8 +38,6 @@
 
 								foreach($status_pemesanan_values as $value => $display_text)
 								{
-									$selected = ($value == $this->input->post('status_pemesanan')) ? ' selected="selected"' : "";
-
 									echo '<option value="'.$value.'" '.$selected.'>'.$display_text.'</option>';
 								} 
 								?>
@@ -47,14 +46,13 @@
 						</div>
 					</div>
 					<div class="col-md-6">
-						<label for="tanggal_pemesanan" class="control-label"><span class="text-danger">*</span>Tanggal Pemesanan</label>
+						<label for="tanggal_pemesanan" class="control-label">Tanggal Pemesanan</label>
 						<div class="form-group">
 							<input type="text" name="tanggal_pemesanan" value="<?php echo $this->input->post('tanggal_pemesanan'); ?>" class="has-datetimepicker form-control" id="tanggal_pemesanan" />
-							<span class="text-danger"><?php echo form_error('tanggal_pemesanan');?></span>
 						</div>
 					</div>
 					<div class="col-md-6">
-						<label for="durasi" class="control-label"><span class="text-danger">*</span>Durasi</label>
+						<label for="durasi" class="control-label">Durasi</label>
 						<div class="form-group">
 							<input type="text" name="durasi" value="<?php echo $this->input->post('durasi'); ?>" class="form-control" id="durasi" />
 							<span class="text-danger"><?php echo form_error('durasi');?></span>
@@ -76,7 +74,7 @@
 			</div>
           	<div class="box-footer">
             	<button type="submit" class="btn btn-success">
-            		<i class="fa fa-check"></i> Save
+            		<i class="fa fa-check"></i> Simpan
             	</button>
           	</div>
             <?php echo form_close(); ?>

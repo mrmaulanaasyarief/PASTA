@@ -5,7 +5,7 @@
             <div class="box-header with-border">
               	<h3 class="box-title">Tambah User</h3>
             </div>
-            <?php echo form_open('user/add'); ?>
+            <?php echo form_open('user/aksiTambahUser'); ?>
           	<div class="box-body">
           		<div class="row clearfix">
 					<div class="col-md-6">
@@ -28,8 +28,6 @@
 
 								foreach($jk_values as $value => $display_text)
 								{
-									$selected = ($value == $this->input->post('jk')) ? ' selected="selected"' : "";
-
 									echo '<option value="'.$value.'" '.$selected.'>'.$display_text.'</option>';
 								} 
 								?>
@@ -78,8 +76,6 @@
 
 								foreach($jenis_user_values as $value => $display_text)
 								{
-									$selected = ($value == $this->input->post('jenis_user')) ? ' selected="selected"' : "";
-
 									echo '<option value="'.$value.'" '.$selected.'>'.$display_text.'</option>';
 								} 
 								?>

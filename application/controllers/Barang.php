@@ -38,10 +38,7 @@ class Barang extends CI_Controller{
      */
     function ambilSemuaBarang()
     {
-        $params['limit'] = RECORDS_PER_PAGE; 
-        $params['offset'] = ($this->input->get('per_page')) ? $this->input->get('per_page') : 0;
-
-        return $this->Barang_model->getAllBarang($params);
+        return $this->Barang_model->getAllBarang();
     }
 
     function ambilBarangBerdasarkanId($id_barang)
