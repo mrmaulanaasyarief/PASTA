@@ -4,7 +4,7 @@
             <div class="box-header with-border">
               	<h3 class="box-title">Item Pemesanan Add</h3>
             </div>
-            <?php echo form_open('item_pemesanan/add'); ?>
+            <?php echo form_open('item_pemesanan/aksiTambahItem'); ?>
           	<div class="box-body">
           		<div class="row clearfix">
 					<div class="col-md-6">

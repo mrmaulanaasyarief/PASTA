@@ -150,5 +150,39 @@ class Pemesanan extends CI_Controller{
         else
             show_error('The pemesanan you are trying to delete does not exist.');
     }
+
+    function place_order($id_user, $id_pemesanan)
+    {
+        $params = array(
+            'status_pemesanan' => 1,
+        );
+
+        $this->Pemesanan_model->updatePemesanan($id_pemesanan,$params);            
+        redirect('home/pesan/'.$id_user);
+    }
+
+    function aksiCetakStruk($id_user)
+    {
+        if($this->session->userdata('user_id')){
+            
+            $this->load->model('Pemesanan_model');
+            $data['pemesanan'] = $this->Pemesanan_model->getAllPemesananByUser($id_user);
+
+            $this->load->model('Item_pemesanan_model');
+            $data['items'] = $this->Item_pemesanan_model->getAllItemByPesananId($data['pemesanan']['id_pemesanan']);
+
+            $this->load->model('Barang_model');
+            $data['all_barangs'] = $this->Barang_model->getAllBarang();
+
+            $this->load->model('Pembayaran_model');
+            $data['pembayaran'] = $this->Pembayaran_model->getPembayaranByIdPemesanan($data['pemesanan']['id_pemesanan']);
+            
+            $data['_view'] = 'pesan';
+            $this->load->view('layouts/print',$data);
+            
+        }else{
+            redirect('user/aksiLoginUser');
+        }
+    }
     
 }

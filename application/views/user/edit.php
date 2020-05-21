@@ -5,7 +5,7 @@
             <div class="box-header with-border">
               	<h3 class="box-title">User Edit</h3>
             </div>
-			<?php echo form_open('user/aksiEditPemesanan/'.$user['id_user']); ?>
+			<?php echo form_open('user/aksiEditUser/'.$user['id_user']); ?>
 			<div class="box-body">
 				<div class="row clearfix">
 					<div class="col-md-6">

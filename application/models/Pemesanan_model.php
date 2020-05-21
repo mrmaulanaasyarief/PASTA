@@ -37,6 +37,16 @@ class Pemesanan_model extends CI_Model
         return $this->db->get('pemesanan')->result_array();
     }
 
+    function getAllPemesananByUser($id_user)
+    {
+        return $this->db->get_where('pemesanan',array('id_user'=>$id_user))->row_array();
+    }
+
+    function getPemesananByUser($id_user)
+    {
+        return $this->db->get_where('pemesanan',array('id_user'=>$id_user,'status_pemesanan'=>0))->row_array();
+    }
+
     function getTotalItem($id_pemesanan)
     {
         return $this->db->get_where('pemesanan', array('id_pemesanan' => $id_pemesanan))->row()->total_item;

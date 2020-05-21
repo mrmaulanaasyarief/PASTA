@@ -63,7 +63,7 @@
 					<div class="col-md-6">
 						<label for="jenis_user" class="control-label"><span class="text-danger">*</span>Jenis User</label>
 						<div class="form-group">
-							<select name="jenis_user" class="form-control" disable>
+							<select name="jenis_user" class="form-control" disabled>
 								<option value="">select</option>
 								<?php 
 								$jenis_user_values = array(

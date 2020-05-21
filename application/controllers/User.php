@@ -98,8 +98,8 @@ class User extends CI_Controller{
 			// $this->form_validation->set_rules('password','Password','required');
 			$this->form_validation->set_rules('nama','Nama','required');
 			$this->form_validation->set_rules('jk','Jk','required');
-			// $this->form_validation->set_rules('alamat','Alamat','required');
-			$this->form_validation->set_rules('email','Email','required|valid_email|is_unique[user.email]');
+			$this->form_validation->set_rules('alamat','Alamat','required');
+			// $this->form_validation->set_rules('email','Email','required|valid_email|is_unique[user.email]');
 			$this->form_validation->set_rules('telp','Telp','required|numeric');
 			$this->form_validation->set_rules('jenis_user','Jenis User','required');
 		
@@ -185,6 +185,8 @@ class User extends CI_Controller{
                             'user_pass' => $apps->password,
                             'user_name' => $apps->nama,
                             'user_type' => $apps->jenis_user,
+                            'user_address' => $apps->alamat,
+                            'user_telp' => $apps->telp,
                         );
                         //set session userdata
                         $this->session->set_userdata($session_data);

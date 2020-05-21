@@ -4,7 +4,7 @@
             <div class="box-header with-border">
               	<h3 class="box-title">Item Pemesanan Edit</h3>
             </div>
-			<?php echo form_open('item_pemesanan/edit/'.$item_pemesanan['id_item']); ?>
+			<?php echo form_open('item_pemesanan/aksiEditItem/'.$item_pemesanan['id_item']); ?>
 			<div class="box-body">
 				<div class="row clearfix">
 					<div class="col-md-6">

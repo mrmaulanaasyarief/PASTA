@@ -12,11 +12,14 @@ class Item_pemesanan extends CI_Controller{
      */
     function index()
     {
-
-        $data['item_pemesanans'] = $this->Item_pemesanan_model->getAllItem();
-        
-        $data['_view'] = 'item_pemesanan/index';
-        $this->load->view('layouts/main',$data);
+        if($this->session->userdata('user_id')){
+            $data['item_pemesanans'] = $this->Item_pemesanan_model->getAllItem();
+            
+            $data['_view'] = 'item_pemesanan/index';
+            $this->load->view('layouts/main',$data);
+        }else{
+            redirect('user/aksiLogin');
+        }
     }
 
     /*
@@ -49,7 +52,11 @@ class Item_pemesanan extends CI_Controller{
             );
 
             $this->Pemesanan_model->updatePemesanan($this->input->post('id_pemesanan'),$params2);
-            redirect('item_pemesanan/index');
+            if($this->session->userdata('user_id')==0){
+                redirect('item_pemesanan/index');
+            }else{
+                redirect('home/pesan/'.$this->session->userdata('user_id'));
+            }
         }
         else
         {
@@ -137,7 +144,11 @@ class Item_pemesanan extends CI_Controller{
             );
 
             $this->Pemesanan_model->updatePemesanan($id_pemesanan,$params2);
-            redirect('item_pemesanan/index');
+            if($this->session->userdata('user_id')==0){
+                redirect('item_pemesanan/index');
+            }else{
+                redirect('home/pesan/'.$this->session->userdata('user_id'));
+            }
         }
         else
             show_error('The item_pemesanan you are trying to delete does not exist.');
