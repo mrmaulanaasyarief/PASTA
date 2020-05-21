@@ -81,6 +81,11 @@
             </li>
             </ul>
         </div>    
+        <?php }else{?>
+            <ul class="nav navbar-nav pull-right">
+                <li><a href="<?php echo site_url('user/aksiLoginUser');?>">Login <span class="sr-only">(current)</span></a></li>
+                <li><a href="<?php echo site_url('user/aksiTambahUser');?>">Daftar</a></li>
+            </ul>
         <?php } ?>
         
         <!-- /.navbar-custom-menu -->

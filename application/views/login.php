@@ -109,7 +109,7 @@
                 <a href="#" class="pull-right need-help">Butuh bantuan? </a><span class="clearfix"></span>
                 </form>
             </div>
-            <a href="#" class="text-center new-account">Buat Akun </a>
+            <a href="<?php echo site_url('user/aksiTambahUser'); ?>" class="text-center new-account">Buat Akun </a>
             <div id="error" style="margin-top: 10px"></div>
         </div>
     </div>

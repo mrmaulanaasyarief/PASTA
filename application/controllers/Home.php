@@ -29,7 +29,7 @@ class Home extends CI_Controller{
         $this->load->view('layouts/customer',$data);
     }
 
-    function pesan($id_user)
+    function pesan()
     {
         if($this->session->userdata('user_id')){
             $this->load->library('form_validation');
@@ -77,12 +77,12 @@ class Home extends CI_Controller{
                     $this->load->view('layouts/customer',$data);
                 }else{
                     $params = array(
-                        'id_user' => $id_user,
+                        'id_user' => $this->session->userdata('user_id'),
                         'status_pemesanan' => 0,
                     );
                     
                     $pemesanan_id = $this->Pemesanan_model->createPemesanan($params);
-                    redirect('home/pesan/'.$id_user);
+                    redirect('home/pesan/'.$this->session->userdata('user_id'));
                 }
             }
         }else{

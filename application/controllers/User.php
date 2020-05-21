@@ -77,9 +77,14 @@ class User extends CI_Controller{
             redirect('user/index');
         }
         else
-        {            
-            $data['_view'] = 'user/add';
-            $this->load->view('layouts/main',$data);
+        {           
+            if($this->session->userdata('user_id')){
+                $data['_view'] = 'user/add';
+                $this->load->view('layouts/main',$data);
+            }else{
+                $data['_view'] = 'register';
+                $this->load->view('layouts/customer',$data);
+            }
         }
     }  
 
@@ -209,7 +214,7 @@ class User extends CI_Controller{
     public function aksiLogoutUser()
     {
         $this->User_model->logout();
-        redirect('user/aksiLoginUser');
+        redirect('home');
     }
     
 }

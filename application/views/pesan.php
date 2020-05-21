@@ -98,6 +98,7 @@
                     </tr>
                 </table>
                 
+                <?php if($pemesanan['status_pemesanan'] == 1 && $pembayaran['status_pembayaran']!=NULL){?>
                 <section class="invoice">
                 <!-- title row -->
                 <div class="row">
@@ -222,7 +223,7 @@
                 </section>
                 <!-- /.content -->
                 <div class="clearfix"></div>
-
+                <?php }?>
                 <div class="row no-print">
                     <div class="col-xs-12">
                     <?php 
