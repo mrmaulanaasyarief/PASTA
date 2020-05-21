@@ -12,12 +12,16 @@ class Pembayaran extends CI_Controller{
      */
     function index()
     {
-        if($this->session->userdata('user_id')){
-
-            $data['pembayarans'] = $this->Pembayaran_model->getAllPembayaran();
-            
-            $data['_view'] = 'pembayaran/index';
-            $this->load->view('layouts/main',$data);
+        if($this->session->userdata('user_id'))
+        {
+            if($this->session->userdata('user_type') == 0){
+                $data['pembayarans'] = $this->Pembayaran_model->getAllPembayaran();
+                
+                $data['_view'] = 'pembayaran/index';
+                $this->load->view('layouts/main',$data);
+            }else{
+                redirect('home');
+            }
         }else{
             redirect('user/aksiLoginUser');
         }
@@ -50,11 +54,20 @@ class Pembayaran extends CI_Controller{
         }
         else
         {
-			$this->load->model('Pemesanan_model');
-			$data['all_pemesanans'] = $this->Pemesanan_model->getAllPemesanan();
-            
-            $data['_view'] = 'pembayaran/add';
-            $this->load->view('layouts/main',$data);
+            if($this->session->userdata('user_id'))
+            {
+                if($this->session->userdata('user_type') == 0){
+                    $this->load->model('Pemesanan_model');
+                    $data['all_pemesanans'] = $this->Pemesanan_model->getAllPemesanan();
+                    
+                    $data['_view'] = 'pembayaran/add';
+                    $this->load->view('layouts/main',$data);
+                }else{
+                    redirect('home');
+                }
+            }else{
+                redirect('user/aksiLoginUser');
+            }
         }
     }  
 
@@ -90,11 +103,20 @@ class Pembayaran extends CI_Controller{
             }
             else
             {
-				$this->load->model('Pemesanan_model');
-				$data['all_pemesanans'] = $this->Pemesanan_model->getAllPemesanan();
-
-                $data['_view'] = 'pembayaran/edit';
-                $this->load->view('layouts/main',$data);
+                if($this->session->userdata('user_id'))
+                {
+                    if($this->session->userdata('user_type') == 0){
+                        $this->load->model('Pemesanan_model');
+                        $data['all_pemesanans'] = $this->Pemesanan_model->getAllPemesanan();
+        
+                        $data['_view'] = 'pembayaran/edit';
+                        $this->load->view('layouts/main',$data);
+                    }else{
+                        redirect('home');
+                    }
+                }else{
+                    redirect('user/aksiLoginUser');
+                }
             }
         }
         else
@@ -106,33 +128,51 @@ class Pembayaran extends CI_Controller{
      */
     function aksiHapusPembayaran($id_pembayaran)
     {
-        $pembayaran = $this->Pembayaran_model->getPembayaran($id_pembayaran);
-
-        // check if the pembayaran exists before trying to delete it
-        if(isset($pembayaran['id_pembayaran']))
+        if($this->session->userdata('user_id'))
         {
-            $this->Pembayaran_model->deletePembayaran($id_pembayaran);
-            redirect('pembayaran/index');
+            if($this->session->userdata('user_type') == 0){
+                $pembayaran = $this->Pembayaran_model->getPembayaran($id_pembayaran);
+        
+                // check if the pembayaran exists before trying to delete it
+                if(isset($pembayaran['id_pembayaran']))
+                {
+                    $this->Pembayaran_model->deletePembayaran($id_pembayaran);
+                    redirect('pembayaran/index');
+                }
+                else
+                    show_error('The pembayaran you are trying to delete does not exist.');
+            }else{
+                redirect('home');
+            }
+        }else{
+            redirect('user/aksiLoginUser');
         }
-        else
-            show_error('The pembayaran you are trying to delete does not exist.');
     }
 
     function aksiKonfirmasiPembayaran($id_pembayaran)
     {
-        $pembayaran = $this->Pembayaran_model->getPembayaran($id_pembayaran);
-
-        // check if the pembayaran exists before trying to delete it
-        if(isset($pembayaran['id_pembayaran']))
+        if($this->session->userdata('user_id'))
         {
-            $params = array(
-                'status_pembayaran' => 2,
-            );
-            $this->Pembayaran_model->updatePembayaran($id_pembayaran,$params);  
-            redirect('pembayaran/index');
+            if($this->session->userdata('user_type') == 0){
+                $pembayaran = $this->Pembayaran_model->getPembayaran($id_pembayaran);
+        
+                // check if the pembayaran exists before trying to delete it
+                if(isset($pembayaran['id_pembayaran']))
+                {
+                    $params = array(
+                        'status_pembayaran' => 2,
+                    );
+                    $this->Pembayaran_model->updatePembayaran($id_pembayaran,$params);  
+                    redirect('pembayaran/index');
+                }
+                else
+                    show_error('The pembayaran you are trying to confirm does not exist.');
+            }else{
+                redirect('home');
+            }
+        }else{
+            redirect('user/aksiLoginUser');
         }
-        else
-            show_error('The pembayaran you are trying to confirm does not exist.');
     }
 
     function bayar($id_pemesanan)

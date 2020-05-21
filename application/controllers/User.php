@@ -14,11 +14,14 @@ class User extends CI_Controller{
     {
         if($this->session->userdata('user_id'))
         {
-
-            $data['users'] = $this->ambilSemuaUser();
-            
-            $data['_view'] = 'user/index';
-            $this->load->view('layouts/main',$data);
+            if($this->session->userdata('user_type') == 0){
+                $data['users'] = $this->ambilSemuaUser();
+                
+                $data['_view'] = 'user/index';
+                $this->load->view('layouts/main',$data);
+            }else{
+                redirect('home');
+            }
         }else{
             redirect('user/aksiLoginUser');
         }
@@ -26,11 +29,19 @@ class User extends CI_Controller{
 
     function detail($id_user)
     {
-
-        $data['user'] = $this->ambilUserBerdasarkanId($id_user);
-
-        $data['_view'] = 'user/detail';
-        $this->load->view('layouts/main',$data);
+        if($this->session->userdata('user_id'))
+        {
+            if($this->session->userdata('user_type') == 0){
+                $data['user'] = $this->ambilUserBerdasarkanId($id_user);
+        
+                $data['_view'] = 'user/detail';
+                $this->load->view('layouts/main',$data);
+            }else{
+                redirect('home');
+            }
+        }else{
+            redirect('user/aksiLoginUser');
+        }
     }
 
     /*
@@ -79,8 +90,10 @@ class User extends CI_Controller{
         else
         {           
             if($this->session->userdata('user_id')){
-                $data['_view'] = 'user/add';
-                $this->load->view('layouts/main',$data);
+                if($this->session->userdata('user_type')==0){
+                    $data['_view'] = 'user/add';
+                    $this->load->view('layouts/main',$data);
+                }
             }else{
                 $data['_view'] = 'register';
                 $this->load->view('layouts/customer',$data);
@@ -125,8 +138,17 @@ class User extends CI_Controller{
             }
             else
             {
-                $data['_view'] = 'user/edit';
-                $this->load->view('layouts/main',$data);
+                if($this->session->userdata('user_id'))
+                {
+                    if($this->session->userdata('user_type') == 0){
+                        $data['_view'] = 'user/edit';
+                        $this->load->view('layouts/main',$data);
+                    }else{
+                        redirect('home');
+                    }
+                }else{
+                    redirect('user/aksiLoginUser');
+                }
             }
         }
         else
@@ -138,16 +160,25 @@ class User extends CI_Controller{
      */
     function aksiHapusUser($id_user)
     {
-        $user = $this->User_model->getUser($id_user);
-
-        // check if the user exists before trying to delete it
-        if(isset($user['id_user']))
+        if($this->session->userdata('user_id'))
         {
-            $this->User_model->deleteUser($id_user);
-            redirect('user/index');
+            if($this->session->userdata('user_type') == 0){
+                $user = $this->User_model->getUser($id_user);
+        
+                // check if the user exists before trying to delete it
+                if(isset($user['id_user']))
+                {
+                    $this->User_model->deleteUser($id_user);
+                    redirect('user/index');
+                }
+                else
+                    show_error('The user you are trying to delete does not exist.');
+            }else{
+                redirect('home');
+            }
+        }else{
+            redirect('user/aksiLoginUser');
         }
-        else
-            show_error('The user you are trying to delete does not exist.');
     }
 
     public function aksiLoginUser()

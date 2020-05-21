@@ -14,11 +14,14 @@ class Barang extends CI_Controller{
     {
         if($this->session->userdata('user_id'))
         {
-
-            $data['barangs'] = $this->ambilSemuaBarang();
+            if($this->session->userdata('user_type') == 0){
+                $data['barangs'] = $this->ambilSemuaBarang();
             
-            $data['_view'] = 'barang/index';
-            $this->load->view('layouts/main',$data);
+                $data['_view'] = 'barang/index';
+                $this->load->view('layouts/main',$data);
+            }else{
+                redirect('home');
+            }
         }else{
             redirect('user/aksiLoginUser');
         }
@@ -26,11 +29,20 @@ class Barang extends CI_Controller{
 
     function detail($id_barang)
     {
-
-        $data['barang'] = $this->ambilBarangBerdasarkanId($id_barang);
-
-        $data['_view'] = 'barang/detail';
-        $this->load->view('layouts/main',$data);
+        if($this->session->userdata('user_id'))
+        {
+            if($this->session->userdata('user_type') == 0){
+                $data['barang'] = $this->ambilBarangBerdasarkanId($id_barang);
+        
+                $data['_view'] = 'barang/detail';
+                $this->load->view('layouts/main',$data);
+                    
+            }else{
+                redirect('home');
+            }
+        }else{
+            redirect('user/aksiLoginUser');
+        }
     }
 
     /*
@@ -72,8 +84,18 @@ class Barang extends CI_Controller{
         }
         else
         {            
-            $data['_view'] = 'barang/add';
-            $this->load->view('layouts/main',$data);
+            if($this->session->userdata('user_id'))
+            {
+                if($this->session->userdata('user_type') == 0){
+                    $data['_view'] = 'barang/add';
+                    $this->load->view('layouts/main',$data);
+                    
+                }else{
+                    redirect('home');
+                }
+            }else{
+                redirect('user/aksiLoginUser');
+            }
         }
     }  
 
@@ -108,8 +130,18 @@ class Barang extends CI_Controller{
             }
             else
             {
-                $data['_view'] = 'barang/edit';
-                $this->load->view('layouts/main',$data);
+                if($this->session->userdata('user_id'))
+                {
+                    if($this->session->userdata('user_type') == 0){
+                        $data['_view'] = 'barang/edit';
+                        $this->load->view('layouts/main',$data);
+                    
+                    }else{
+                        redirect('home');
+                    }
+                }else{
+                    redirect('user/aksiLoginUser');
+                }
             }
         }
         else
@@ -121,16 +153,26 @@ class Barang extends CI_Controller{
      */
     function aksiHapusBarang($id_barang)
     {
-        $barang = $this->Barang_model->getBarang($id_barang);
-
-        // check if the barang exists before trying to delete it
-        if(isset($barang['id_barang']))
+        if($this->session->userdata('user_id'))
         {
-            $this->Barang_model->deleteBarang($id_barang);
-            redirect('barang/index');
+            if($this->session->userdata('user_type') == 0){
+                $barang = $this->Barang_model->getBarang($id_barang);
+        
+                // check if the barang exists before trying to delete it
+                if(isset($barang['id_barang']))
+                {
+                    $this->Barang_model->deleteBarang($id_barang);
+                    redirect('barang/index');
+                }
+                else
+                    show_error('The barang you are trying to delete does not exist.');
+                    
+            }else{
+                redirect('home');
+            }
+        }else{
+            redirect('user/aksiLoginUser');
         }
-        else
-            show_error('The barang you are trying to delete does not exist.');
     }
     
 }

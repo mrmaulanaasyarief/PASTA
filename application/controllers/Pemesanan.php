@@ -14,13 +14,17 @@ class Pemesanan extends CI_Controller{
     {
         if($this->session->userdata('user_id'))
         {
-            $data['pemesanans'] = $this->Pemesanan_model->getAllPemesanan();
-
-            $this->load->model('User_model');
-            $data['all_users'] = $this->User_model->getAllUser();
-            
-            $data['_view'] = 'pemesanan/index';
-            $this->load->view('layouts/main',$data);
+            if($this->session->userdata('user_type') == 0){
+                $data['pemesanans'] = $this->Pemesanan_model->getAllPemesanan();
+        
+                $this->load->model('User_model');
+                $data['all_users'] = $this->User_model->getAllUser();
+                
+                $data['_view'] = 'pemesanan/index';
+                $this->load->view('layouts/main',$data);
+            }else{
+                redirect('home');
+            }
         }else{
             redirect('user/aksiLoginUser');
         }
@@ -28,23 +32,32 @@ class Pemesanan extends CI_Controller{
 
     function detail($id_user, $id_pemesanan)
     {
-
-        $data['pemesanan'] = $this->ambilPemesananBerdasarkanId($id_pemesanan);
-
-        $this->load->model('Barang_model');
-        $data['barang'] = $this->Barang_model->getAllBarang();
-
-        $this->load->model('Item_pemesanan_model');
-        $data['items'] = $this->Item_pemesanan_model->getAllItemByPesananId($id_pemesanan);
+        if($this->session->userdata('user_id'))
+        {
+            if($this->session->userdata('user_type') == 0){
+                $data['pemesanan'] = $this->ambilPemesananBerdasarkanId($id_pemesanan);
         
-        $this->load->model('User_model');
-        $data['customer'] = $this->User_model->getUser($id_user);
+                $this->load->model('Barang_model');
+                $data['barang'] = $this->Barang_model->getAllBarang();
+        
+                $this->load->model('Item_pemesanan_model');
+                $data['items'] = $this->Item_pemesanan_model->getAllItemByPesananId($id_pemesanan);
+                
+                $this->load->model('User_model');
+                $data['customer'] = $this->User_model->getUser($id_user);
+        
+                $this->load->model('Pembayaran_model');
+                $data['pembayaran'] = $this->Pembayaran_model->getPembayaranByIdPemesanan($id_pemesanan);
+        
+                $data['_view'] = 'pemesanan/detail';
+                $this->load->view('layouts/main',$data);
+            }else{
+                redirect('home');
+            }
+        }else{
+            redirect('user/aksiLoginUser');
+        }
 
-        $this->load->model('Pembayaran_model');
-        $data['pembayaran'] = $this->Pembayaran_model->getPembayaranByIdPemesanan($id_pemesanan);
-
-        $data['_view'] = 'pemesanan/detail';
-        $this->load->view('layouts/main',$data);
     }
 
     /*
@@ -85,11 +98,20 @@ class Pemesanan extends CI_Controller{
         }
         else
         {
-			$this->load->model('User_model');
-			$data['all_users'] = $this->User_model->getAllUser();
-            
-            $data['_view'] = 'pemesanan/add';
-            $this->load->view('layouts/main',$data);
+            if($this->session->userdata('user_id'))
+            {
+                if($this->session->userdata('user_type') == 0){
+                    $this->load->model('User_model');
+                    $data['all_users'] = $this->User_model->getAllUser();
+                    
+                    $data['_view'] = 'pemesanan/add';
+                    $this->load->view('layouts/main',$data);
+                }else{
+                    redirect('home');
+                }
+            }else{
+                redirect('user/aksiLoginUser');
+            }
         }
     }  
 
@@ -115,7 +137,8 @@ class Pemesanan extends CI_Controller{
 					'id_user' => $this->input->post('id_user'),
 					'status_pemesanan' => $this->input->post('status_pemesanan'),
 					'tanggal_pemesanan' => $this->input->post('tanggal_pemesanan'),
-					'durasi' => $this->input->post('durasi'),
+                    'durasi' => $this->input->post('durasi'),
+                    'total_harga' => $this->input->post('durasi') * $data['pemesanan']['total_harga'],
                 );
 
                 $this->Pemesanan_model->updatePemesanan($id_pemesanan,$params);            
@@ -123,11 +146,20 @@ class Pemesanan extends CI_Controller{
             }
             else
             {
-				$this->load->model('User_model');
-				$data['all_users'] = $this->User_model->getAllUser();
-
-                $data['_view'] = 'pemesanan/edit';
-                $this->load->view('layouts/main',$data);
+                if($this->session->userdata('user_id'))
+                {
+                    if($this->session->userdata('user_type') == 0){
+                        $this->load->model('User_model');
+                        $data['all_users'] = $this->User_model->getAllUser();
+        
+                        $data['_view'] = 'pemesanan/edit';
+                        $this->load->view('layouts/main',$data);
+                    }else{
+                        redirect('home');
+                    }
+                }else{
+                    redirect('user/aksiLoginUser');
+                }
             }
         }
         else
@@ -139,26 +171,40 @@ class Pemesanan extends CI_Controller{
      */
     function aksiHapusPemesanan($id_pemesanan)
     {
-        $pemesanan = $this->Pemesanan_model->getPemesanan($id_pemesanan);
-
-        // check if the pemesanan exists before trying to delete it
-        if(isset($pemesanan['id_pemesanan']))
+        if($this->session->userdata('user_id'))
         {
-            $this->Pemesanan_model->deletePemesanan($id_pemesanan);
-            redirect('pemesanan/index');
+            if($this->session->userdata('user_type') == 0){
+                $pemesanan = $this->Pemesanan_model->getPemesanan($id_pemesanan);
+        
+                // check if the pemesanan exists before trying to delete it
+                if(isset($pemesanan['id_pemesanan']))
+                {
+                    $this->Pemesanan_model->deletePemesanan($id_pemesanan);
+                    redirect('pemesanan/index');
+                }
+                else
+                    show_error('The pemesanan you are trying to delete does not exist.');
+            }else{
+                redirect('home');
+            }
+        }else{
+            redirect('user/aksiLoginUser');
         }
-        else
-            show_error('The pemesanan you are trying to delete does not exist.');
     }
 
     function place_order($id_user, $id_pemesanan)
     {
-        $params = array(
-            'status_pemesanan' => 1,
-        );
-
-        $this->Pemesanan_model->updatePemesanan($id_pemesanan,$params);            
-        redirect('home/pesan/'.$id_user);
+        if($this->session->userdata('user_id'))
+        {
+            $params = array(
+                'status_pemesanan' => 1,
+            );
+    
+            $this->Pemesanan_model->updatePemesanan($id_pemesanan,$params);            
+            redirect('home/pesan/'.$id_user);
+        }else{
+            redirect('user/aksiLoginUser');
+        }
     }
 
     function aksiCetakStruk($id_user)

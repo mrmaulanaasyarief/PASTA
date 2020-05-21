@@ -12,13 +12,18 @@ class Item_pemesanan extends CI_Controller{
      */
     function index()
     {
-        if($this->session->userdata('user_id')){
-            $data['item_pemesanans'] = $this->Item_pemesanan_model->getAllItem();
-            
-            $data['_view'] = 'item_pemesanan/index';
-            $this->load->view('layouts/main',$data);
+        if($this->session->userdata('user_id'))
+        {
+            if($this->session->userdata('user_type') == 0){
+                $data['item_pemesanans'] = $this->Item_pemesanan_model->getAllItem();
+                
+                $data['_view'] = 'item_pemesanan/index';
+                $this->load->view('layouts/main',$data);
+            }else{
+                redirect('home');
+            }
         }else{
-            redirect('user/aksiLogin');
+            redirect('user/aksiLoginUser');
         }
     }
 
@@ -52,7 +57,7 @@ class Item_pemesanan extends CI_Controller{
             );
 
             $this->Pemesanan_model->updatePemesanan($this->input->post('id_pemesanan'),$params2);
-            if($this->session->userdata('user_id')==0){
+            if($this->session->userdata('user_type') == 0){
                 redirect('item_pemesanan/index');
             }else{
                 redirect('home/pesan/'.$this->session->userdata('user_id'));
@@ -60,14 +65,23 @@ class Item_pemesanan extends CI_Controller{
         }
         else
         {
-			$this->load->model('Pemesanan_model');
-			$data['all_pemesanans'] = $this->Pemesanan_model->getAllPemesanan();
-
-			$this->load->model('Barang_model');
-			$data['all_barangs'] = $this->Barang_model->getAllBarang();
-            
-            $data['_view'] = 'item_pemesanan/add';
-            $this->load->view('layouts/main',$data);
+            if($this->session->userdata('user_id'))
+            {
+                if($this->session->userdata('user_type') == 0){
+                    $this->load->model('Pemesanan_model');
+                    $data['all_pemesanans'] = $this->Pemesanan_model->getAllPemesanan();
+        
+                    $this->load->model('Barang_model');
+                    $data['all_barangs'] = $this->Barang_model->getAllBarang();
+                    
+                    $data['_view'] = 'item_pemesanan/add';
+                    $this->load->view('layouts/main',$data);
+                }else{
+                    redirect('home');
+                }
+            }else{
+                redirect('user/aksiLoginUser');
+            }
         }
     }  
 
@@ -111,14 +125,23 @@ class Item_pemesanan extends CI_Controller{
             }
             else
             {
-				$this->load->model('Pemesanan_model');
-				$data['all_pemesanans'] = $this->Pemesanan_model->getAllPemesanan();
-
-				$this->load->model('Barang_model');
-				$data['all_barangs'] = $this->Barang_model->getAllBarang();
-
-                $data['_view'] = 'item_pemesanan/edit';
-                $this->load->view('layouts/main',$data);
+                if($this->session->userdata('user_id'))
+                {
+                    if($this->session->userdata('user_type') == 0){
+                        $this->load->model('Pemesanan_model');
+                        $data['all_pemesanans'] = $this->Pemesanan_model->getAllPemesanan();
+        
+                        $this->load->model('Barang_model');
+                        $data['all_barangs'] = $this->Barang_model->getAllBarang();
+        
+                        $data['_view'] = 'item_pemesanan/edit';
+                        $this->load->view('layouts/main',$data);
+                    }else{
+                        redirect('home');
+                    }
+                }else{
+                    redirect('user/aksiLoginUser');
+                }
             }
         }
         else
@@ -130,28 +153,33 @@ class Item_pemesanan extends CI_Controller{
      */
     function aksiHapusItem($id_pemesanan, $id_item)
     {
-        $item_pemesanan = $this->Item_pemesanan_model->getItem($id_item);
-
-        // check if the item_pemesanan exists before trying to delete it
-        if(isset($item_pemesanan['id_item']))
+        if($this->session->userdata('user_id'))
         {
-            $this->Item_pemesanan_model->deleteItem($id_item);
-            
-            $this->load->model('Pemesanan_model');
-            $params2 = array(
-                'total_item' => $this->Item_pemesanan_model->getSumItem($id_pemesanan),
-                'total_harga' => $this->Item_pemesanan_model->getSumHarga($id_pemesanan),
-            );
-
-            $this->Pemesanan_model->updatePemesanan($id_pemesanan,$params2);
-            if($this->session->userdata('user_id')==0){
-                redirect('item_pemesanan/index');
-            }else{
-                redirect('home/pesan/'.$this->session->userdata('user_id'));
+            $item_pemesanan = $this->Item_pemesanan_model->getItem($id_item);
+    
+            // check if the item_pemesanan exists before trying to delete it
+            if(isset($item_pemesanan['id_item']))
+            {
+                $this->Item_pemesanan_model->deleteItem($id_item);
+                
+                $this->load->model('Pemesanan_model');
+                $params2 = array(
+                    'total_item' => $this->Item_pemesanan_model->getSumItem($id_pemesanan),
+                    'total_harga' => $this->Item_pemesanan_model->getSumHarga($id_pemesanan),
+                );
+    
+                $this->Pemesanan_model->updatePemesanan($id_pemesanan,$params2);
+                if($this->session->userdata('user_type') == 0){
+                    redirect('item_pemesanan/index');
+                }else{
+                    redirect('home/pesan/'.$this->session->userdata('user_id'));
+                }
             }
+            else
+                show_error('The item_pemesanan you are trying to delete does not exist.');
+        }else{
+            redirect('user/aksiLoginUser');
         }
-        else
-            show_error('The item_pemesanan you are trying to delete does not exist.');
     }
     
 }
