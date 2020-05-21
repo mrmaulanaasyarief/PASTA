@@ -41,7 +41,11 @@
             <ul class="nav navbar-nav">
                 <li><a href="<?php echo site_url('home/index');?>">Home <span class="sr-only">(current)</span></a></li>
                 <li><a href="<?php echo site_url('home/info_harga');?>">Daftar Harga</a></li>
+                <?php if($this->session->userdata('user_id')){?>
                 <li><a href="<?php echo site_url('home/pesan/'.$this->session->userdata('user_id'));?>">PESAN SEKARANG</a></li>
+                <?php }else{?>
+                <li><a href="<?php echo site_url('user/aksiLoginUser');?>">PESAN SEKARANG</a></li>
+                <?php }?>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
